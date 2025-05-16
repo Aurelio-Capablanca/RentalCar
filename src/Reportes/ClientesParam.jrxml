@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Clientes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d8b9c198-fd72-4af0-94a8-d165872f72d0">
+	<property name="ireport.zoom" value="1.2100000000000066"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tipo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     cl."nombre",
+     cl."apellido",
+     cl."representanteLegal",
+     cl."telefono",
+     cl."direccion",
+     cl."nit",
+     tc."tipoCliente",
+     ec."estadoCliente",
+     cl."nombre",
+     cl."apellido",
+     cl."representanteLegal",
+     cl."telefono",
+     cl."direccion",
+     cl."nit",
+     ec."estadoCliente",
+     tc."tipoCliente"
+FROM
+     "Cliente" cl INNER JOIN "TipoCliente" tc ON cl."idTipoCliente" = tc."idTipoCliente"
+     INNER JOIN "EstadoCliente" ec ON cl."idEstadoCliente" = ec."idEstadoCliente"
+where tc.tipoCliente = $P{tipo}
+Order By
+    ec."estadoCliente"]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="apellido" class="java.lang.String"/>
+	<field name="representanteLegal" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="nit" class="java.lang.String"/>
+	<field name="tipoCliente" class="java.lang.String"/>
+	<field name="estadoCliente" class="java.lang.String"/>
+	<variable name="nombre_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{nombre}]]></variableExpression>
+	</variable>
+	<variable name="nombre_2" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{nombre}]]></variableExpression>
+	</variable>
+	<group name="Estado">
+		<groupExpression><![CDATA[$F{estadoCliente}]]></groupExpression>
+		<groupHeader>
+			<band height="57">
+				<rectangle>
+					<reportElement x="1" y="37" width="78" height="20" backcolor="#66CCFF" uuid="5001240f-d5c7-4bd5-8b32-0d03dcf04c7c"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="79" y="37" width="78" height="20" backcolor="#66CCFF" uuid="7f664e6f-69b0-4fd8-bd2c-aca235982922"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="157" y="37" width="80" height="20" backcolor="#66CCFF" uuid="4a2049af-cb48-4bcf-bc6b-8e6d01f3fb50"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="237" y="37" width="80" height="20" backcolor="#66CCFF" uuid="fd70750c-199f-4da5-9ea6-a3540be5b7fc"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="317" y="37" width="78" height="20" backcolor="#66CCFF" uuid="85ad320d-8557-4896-9df8-ecad335d7376"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="395" y="37" width="79" height="20" backcolor="#66CCFF" uuid="d970d57e-10d9-4816-815b-9277d50f921d"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="1" y="0" width="555" height="20" backcolor="#99CCFF" uuid="3bdffff9-685d-456b-bec1-f5e956c14af3"/>
+				</rectangle>
+				<textField>
+					<reportElement x="1" y="0" width="552" height="20" uuid="70ba666c-a8b5-48f2-b116-8401d7db4940"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{estadoCliente}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement x="474" y="37" width="78" height="20" backcolor="#66CCFF" uuid="eded8b6a-9f38-4dc7-bfd1-b1e718c9a59b"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="-1" y="37" width="80" height="20" uuid="a3ced2d2-0b9c-4b4e-8cfb-3b2fdec52a0c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Nombres]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="79" y="37" width="79" height="20" uuid="720d23b1-284e-4cdf-ab1c-e5fb42beb16a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Apellidos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="158" y="37" width="79" height="20" uuid="0ed5412e-9835-4df0-bf8f-2ee86def90b7"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Representante]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="237" y="37" width="79" height="20" uuid="b9efeafc-f905-4b63-842b-82c285ce7795"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Telefono]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="316" y="37" width="79" height="20" uuid="a96ef8fb-229e-4185-8070-8d72fcfdd544"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Direccion]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="395" y="37" width="79" height="20" uuid="ffe4adb3-1955-434a-88c5-2bd52a492c00"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[NIT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="474" y="37" width="78" height="20" uuid="ad1260d7-845a-4d53-8ec3-029b49adbf3c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Tipo de Cliente]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="16" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="181" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="139" width="156" height="33" uuid="cb4be7a8-a70d-4ccb-bd3c-5fa31fcdb8a5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Empresa: Hermes Software]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="438" y="139" width="116" height="33" uuid="cbe2e1cf-b218-4c3b-b942-e68736df938f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="-1" y="131" width="555" height="8" backcolor="#3399FF" uuid="42901dd3-9387-4714-9be0-464f94670279"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="-1" y="172" width="555" height="8" backcolor="#3399FF" uuid="746bc28e-800a-44f1-9a53-b2b703e9008f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="213" y="95" width="126" height="26" uuid="fea9624d-c49c-49b3-b8ca-3feddc88e9cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<text><![CDATA[Reporte Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="339" y="139" width="99" height="33" uuid="cfaddc0c-c474-4eba-a4ab-0f7e94d61895"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="169" y="1" width="226" height="84" uuid="12251c45-3524-4bff-8508-47f17cc5aaa5"/>
+				<imageExpression><![CDATA["C:\\Users\\adalb\\Desktop\\Ricaldone 2020\\01 Modulos Técnicos\\ExpoTécnica 2020\\Sistema\\Revisiones\\Proyecto Formativo 100%\\Hermes_Sistem\\Proyecto Hermes\\Proyecto Hermes\\Hermes 5.0\\src\\Reportes\\images\\Sin título.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="112" y="0" width="125" height="20" uuid="495fd5d6-aa1c-4886-840e-a92572b2097d"/>
+				<text><![CDATA[N# Total de registros:]]></text>
+			</staticText>
+			<textField evaluationTime="Column">
+				<reportElement x="239" y="0" width="100" height="20" uuid="a1e0174e-432f-4899-ae41-1b338dd26243"/>
+				<textFieldExpression><![CDATA[$V{nombre_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="0" width="78" height="40" backcolor="#99FFFF" uuid="b8a4ad0a-e50d-4799-9412-d9263c906494"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="79" y="0" width="78" height="40" backcolor="#CCCCCC" uuid="b275da88-79a6-4fce-8103-4ac399cabd1a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="157" y="0" width="80" height="40" backcolor="#99FFFF" uuid="f014ab9c-daaa-4cc4-9abc-ea877ac50dac"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="237" y="0" width="81" height="40" backcolor="#CCCCCC" uuid="61d084b3-0306-4baa-b8a9-80fa381b3242"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="317" y="0" width="78" height="40" backcolor="#99FFFF" uuid="f5e12447-5dd7-4a1c-bb94-4aa01c3e56bf"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="395" y="0" width="79" height="40" backcolor="#CCCCCC" uuid="aeaeeec6-e55f-41bb-a4e5-dcfb0edfd918"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="474" y="0" width="78" height="40" backcolor="#99FFFF" uuid="be34e9dc-edb0-4d3e-b0b0-d2155af40632"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="79" height="40" uuid="4981580d-4f5d-4435-8175-621d1c272c14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="0" width="79" height="40" uuid="654f379c-c0eb-416b-b7a7-97a3546ad8eb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{apellido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="158" y="0" width="79" height="40" uuid="49465641-c177-4b70-8238-a45380a799e9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{representanteLegal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="237" y="0" width="79" height="40" uuid="e6036df2-7da2-4bdb-bc1c-4c90bc198b09"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="316" y="0" width="79" height="40" uuid="11c66221-e56f-43b4-97af-b0137981ca09"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="395" y="0" width="79" height="40" uuid="5f9b4a8e-b406-46a0-afe6-e1fb36bd3166"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="474" y="0" width="79" height="40" uuid="66e4ee7c-0306-4b85-92f4-9c11f88bd4a8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipoCliente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="436" y="21" width="80" height="33" uuid="0f893ee8-df85-478c-a91d-5a0075cc1221"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="21" width="99" height="33" forecolor="#999999" uuid="d3f9569d-aa7b-4283-b21c-03bc2207a3ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Hermes Software]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="9" width="555" height="8" backcolor="#3399FF" uuid="dc69c849-f21a-43f6-9754-59aeda27caa6"/>
+			</rectangle>
+			<textField evaluationTime="Report">
+				<reportElement x="516" y="21" width="40" height="33" uuid="34a59440-df73-444c-9b17-44089311dfdc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

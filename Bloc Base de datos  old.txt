@@ -1,0 +1,464 @@
+-------------------------------------------------------------------------
+
+create table EstadoPersona(
+idEstadoPersonal int not null Primary key,
+estadoPersonal varchar (25) not null 
+)
+
+create table TipoPersona(
+idTipoPersonal int not null Primary key,
+tipoPersonal varchar (25) not null
+)
+
+create table Empresa (
+idEmpresa int not null Primary key,
+nombre varchar (25) not null,
+representanteLegal character(25) not null,
+telefono varchar (9) not null,
+ubicacion varchar (100) not null,
+nit character (20) not null,
+logo nvarchar (max) not null,
+fechaRegistro date not null
+)
+
+
+create table Pregunta (
+idPregunta int not null Primary key,
+pregunta1 varchar(100) not null
+)
+
+Create table Licencia (
+idLicencia int not null Primary key,
+licencia Character (25) not null
+)
+
+create table Persona (
+idPersona int not null Primary key,
+nombres varchar (25) not null,
+apellidos varchar(25) not null,
+fechaNacimiento date not null,
+direccion varchar (150) not null,
+telefono varchar (9) not null,
+dui varchar (15) Unique not null,
+correo varchar (100) not null,
+usuario varchar (40) not null,
+clave varchar (40) not null,
+nSeguro varchar (40) not null,
+fechaRegistro date not null,
+codigoConfirmacion varchar (15),
+respuesta1 varchar (100),
+respuesta2 varchar (100),
+idLicencia int references Licencia(idLicencia),
+idPregunta int  references Pregunta(idPregunta),
+idPregunta2 int references Pregunta(idPregunta),
+idEstadoPersonal int not null references EstadoPersona(idEstadoPersonal),
+idTipoPersonal int not null references TipoPersona(idTipoPersonal),
+idEmpresa int not null references Empresa(idEmpresa)
+) 
+
+create table TipoUnidad(
+idTipoUni int not null Primary key,
+tipoUnidad varchar (55) not null
+) 
+
+create table EstadoUnidad (
+idEstadoUni int not null Primary key,
+estadoUnidad varchar(55) not null
+) 
+
+create table Marca(
+idMarca int not null Primary key,
+nombreMarca varchar (55) not null
+)
+
+
+create table Recurso(
+idRecurso int not null Primary key,
+nombreRecurso varchar(100) not null,
+cantidadRecurso numeric(9) not null,
+fechaRecurso date not null
+)
+
+create table Unidad(
+idUnidad int not null primary key ,
+modelo varchar (25) not null,
+capacidad numeric (35) not null,
+codigo numeric (9) Unique not null,
+placas varchar (25) Unique not null,
+fechaLanzamiento date not null,
+fechaRegistro date not null,
+idMarca int not null references Marca(idMarca),
+idTipoUni int not null references TipoUnidad(idTipoUni),
+idEstadoUni int not null references EstadoUnidad(idEstadoUni)
+) 
+
+create table DetalleRecurso(
+idDetalle int not null Primary key,
+idRecurso int not null references Recurso(idRecurso),
+idUnidad int not null references Unidad(idUnidad)
+)
+
+
+create table EstadoServicio(
+idEstadoServicio int not null Primary key,
+estadoServicio varchar (25) not null
+)
+
+
+create table TipoServicio(
+idTipoServicio int not null primary key,
+tipoServicio character (25) not null
+)
+
+create table Servicio(
+idServicio int not null Primary key,
+codigo varchar (25) not null,
+nombreServicio varchar (255) not null,
+descripcion varchar (250) not null,
+fechaRegistro date not null,
+idTipoServicio int not null references TipoServicio(idTipoServicio),
+idEstadoServicio int not null references EstadoServicio (idEstadoServicio)
+)
+
+
+create table TipoCliente(
+idTipoCliente int not null Primary key, 
+tipoCliente varchar (25) not null
+)
+
+create table EstadoCliente(
+idEstadoCliente int not null Primary key,
+estadoCliente varchar(25) not null
+)
+
+
+create table Cliente (
+idCliente int not null Primary key,
+nombre varchar (150) not null,
+apellido varchar (25) null,
+representanteLegal varchar (30) not null,
+telefono varchar (9) not null,
+direccion varchar(100) not null,
+nit varchar (60) Unique not null,
+fechaRegistro date not null,
+idTipoCliente int not null references TipoCliente (idTipoCliente),
+idEstadoCliente int not null references EstadoCliente (idEstadoCliente)
+) 
+
+
+create table TipoPago(
+idPago int not null Primary key,
+tipoPago varchar (25) not null
+)
+
+
+create table Contrato (
+idContrato int not null Primary key,
+intereses numeric (3,2) not null,
+monto numeric (6,2) not null,
+fecha_inicio date not null,
+fecha_fin date not null,
+fechaRegistro date not null,
+idServicio int not null references Servicio(idServicio),
+idCliente int not null references Cliente(idCliente),
+idPago int not null references TipoPago (idPago)
+) 
+
+
+create table TipoFactura(
+idTipoFactura int not null Primary key,
+tipoFactura character(30) not null
+)
+
+
+create table Departamento(
+idDepartamento int not null Primary key,
+departamento varchar(25) Unique not null
+)
+
+create table TipoViaje(
+idTipoViaje int not null Primary key,
+tipoViaje varchar(25) not null
+)
+
+
+create table Viaje(
+idViaje int not null Primary key,
+direccion varchar(225),
+precio numeric(6,2) not null,
+horaSalida date not null,
+horaRetorno date not null,
+fechaRegistro date not null,
+idPersona int not null references Persona(idPersona),
+idUnidad int not null references Unidad(idUnidad),
+idCliente int not null references Cliente(idCliente),
+idDepartamento int not null references Departamento (idDepartamento),
+idTipoViaje int not null references TipoViaje (idTipoViaje)
+) 
+
+create table Bitacora(
+idBitacora int not null identity (1,1) primary key,
+persona varchar(25),
+fecha datetime,
+accion varchar(50)
+)  
+
+create table Factura(
+idFactura int not null Primary key,
+monto numeric (7,2) not null,
+fechaRegistro date not null,
+numeroTarjeta varchar (19),
+cantidadEfectivo numeric (8,2),
+giro varchar(55) null,
+razonSocial character (45) Default 'Hermes y Asociados',
+idTipoFactura int not null references TipoFactura(idTipoFactura),
+idContrato int not null references Contrato(idContrato)
+)
+
+
+
+
+
+
+
+
+
+if(txtCodigo.getText().trim().equals("")  )
+        {
+            JOptionPane.showMessageDialog(this, "Existen campos vacíos. Por favor, rellenelos", "Mensaje", JOptionPane.WARNING_MESSAGE);
+        }
+        else
+        {
+          
+        }
+
+
+
+
+
+
+JOptionPane.showMessageDialog(this, "Existen campos vacíos. Por favor, rellenelos", "Mensaje", JOptionPane.WARNING_MESSAGE);
+
+
+
+
+
+
+
+
+jdbc:sqlserver://SUN\MSSQLSERVER;databaseName=Sistema_transporte
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+create table EstadoPersona(
+idEstadoPersonal int not null Primary key,
+estadoPersonal character (25) not null 
+)
+
+create table TipoPersona(
+idTipoPersonal int not null Primary key,
+tipoPersonal character (25) not null
+)
+
+create table Empresa (
+idEmpresa int not null Primary key,
+nombre character (25) not null,
+representanteLegal character(25) not null,
+telefono character (9) not null,
+ubicacion varchar (100) not null,
+nit character (15) not null,
+logo varchar(2000) not null,
+fechaRegistro date not null
+)
+
+
+create table Persona (
+idPersona int not null Primary key,
+nombres character (25) not null,
+apellidos character(25) not null,
+fechaNacimiento date not null,
+direccion character (150) not null,
+telefono character (9) not null,
+dui character (9) not null,
+correo character (100) not null,
+licencia character (15) not null,
+usuario character (25) not null,
+contraseña character (25) not null,
+nSeguro numeric (25) not null,
+fechaRegistro date not null,
+idEstadoPersonal int not null references EstadoPersona(idEstadoPersonal),
+idTipoPersonal int not null references TipoPersona(idTipoPersonal),
+idEmpresa int not null references Empresa(idEmpresa)
+)
+ 
+
+create table Pregunta (
+idPregunta int not null Primary key,
+pregunta1 character(100) not null,
+pregunta2 character (100) not null,
+)
+ 
+create table Respuesta(
+idRespuesta int not null primary key,
+respuesta1 character (100) not null,
+respuesta2 character (100) not null,
+idPregunta int not null references Pregunta(idPregunta),
+idPersona int not null references Persona(idPersona)
+)
+
+create table TipoUnidad(
+idTipoUni int not null Primary key,
+tipoUnidad character (55) not null
+) 
+
+create table EstadoUnidad (
+idEstadoUni int not null Primary key,
+estadoUnidad character(55) not null
+) 
+
+create table Marca(
+idMarca int not null Primary key,
+nombreMarca character (55) not null
+)
+
+
+create table Recurso(
+idRecurso int not null Primary key,
+nombreRecurso character(100) not null,
+cantidadRecurso numeric(9) not null,
+fechaRecurso date not null
+)
+
+create table Unidad(
+idUnidad int not null primary key ,
+modelo character (25) not null,
+capacidad numeric (35) not null,
+codigo numeric (9) not null,
+placas varchar (25) not null,
+año date not null,
+fechaRegistro date not null,
+idMarca int not null references Marca(idMarca),
+idTipoUni int not null references TipoUnidad(idTipoUni),
+idEstadoUni int not null references EstadoUnidad(idEstadoUni),
+) 
+
+create table DetalleRecurso(
+idDetalle int not null Primary key,
+codigoAgrupacion numeric(9) not null,
+idRecurso int not null references Recurso(idRecurso),
+idUnidad int not null references Unidad(idUnidad)
+)
+
+
+create table EstadoServicio(
+idEstadoServicio int not null Primary key,
+estadoServicio character (25) not null
+)
+
+
+create table TipoServicio(
+idTipoServicio int not null primary key,
+tipoServicio character (25) not null
+)
+
+create table Servicio(
+idServicio int not null Primary key,
+codigo character (25) not null,
+nombreServicio character (255) not null,
+descripcion character (250) not null,
+fechaRegistro date not null,
+idTipoServicio int not null references TipoServicio(idTipoServicio),
+idEstadoServicio int not null references EstadoServicio (idEstadoServicio)
+)
+
+
+create table TipoCliente(
+idTipoCliente int not null Primary key, 
+tipoCliente character (25) not null
+)
+
+create table Cliente (
+idCliente int not null Primary key,
+nombre character (150) not null,
+apellido character (25) null,
+representanteLegal character (30) not null,
+telefono Character (9) not null,
+direccion character(100) not null,
+nit character (15) not null,
+fechaRegistro date not null,
+idTipoCliente int not null references TipoCliente (idTipoCliente)
+) 
+
+create table TipoPago(
+idPago int not null Primary key,
+tipoPago character (25) not null
+)
+
+
+create table Contrato (
+idContrato int not null Primary key,
+intereses numeric (3,2) not null,
+monto numeric (6,2) not null,
+fecha_inicio datetime not null,
+fecha_fin datetime not null,
+fechaRegistro date not null,
+idServicio int not null references Servicio(idServicio),
+idCliente int not null references Cliente(idCliente),
+idPago int not null references TipoPago (idPago)
+) 
+
+create table TipoFactura(
+idTipoFactura int not null Primary key,
+tipoFactura character(30) not null
+)
+
+
+create table Factura(
+idFactura int not null Primary key,
+monto  numeric (7,2) not null,
+fechaRegistro date not null,
+idTipoFactura int not null references TipoFactura(idTipoFactura),
+idContrato int not null references Contrato(idContrato) 
+)
+
+
+create table Departamento(
+idDepartamento int not null Primary key,
+departamento character(25) not null
+)
+
+create table TipoViaje(
+idTipoViaje int not null Primary key,
+tipoViaje character(25) not null
+)
+
+
+create table Viaje(
+idViaje int not null Primary key,
+direccion character(225),
+precio numeric(6,2) not null,
+horaSalida datetime not null,
+horaRetorno datetime not null,
+fechaRegistro date not null,
+idPersona int not null references Persona(idPersona),
+idUnidad int not null references Unidad(idUnidad),
+idCliente int not null references Cliente(idCliente),
+idDepartamento int not null references Departamento (idDepartamento),
+idTipoViaje int not null references TipoViaje (idTipoViaje)
+) 
+
+
+create table Bitacoras(
+idBitacora int not null identity (1,1) primary key,
+fecha datetime,
+accion varchar(50),
+idPersona int not null references Persona(idPersona)
+)  
+
+
+

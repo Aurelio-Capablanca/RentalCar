@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteRecursos" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="39163838-defa-4e8f-a789-9d24c497a71d">
+	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cantidad_inicial" class="java.lang.String"/>
+	<parameter name="cantidad_final" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from Recurso
+where cantidadRecurso >= $P{cantidad_inicial} and cantidadRecurso <= $P{cantidad_final}]]>
+	</queryString>
+	<field name="idRecurso" class="java.lang.Integer"/>
+	<field name="nombreRecurso" class="java.lang.String"/>
+	<field name="cantidadRecurso" class="java.math.BigDecimal"/>
+	<field name="fechaRecurso" class="java.sql.Date"/>
+	<variable name="nombreRecurso_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{nombreRecurso}]]></variableExpression>
+	</variable>
+	<group name="nombrerecurso">
+		<groupExpression><![CDATA[$F{nombreRecurso}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="202" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="150" width="184" height="28" uuid="a28ec645-e2b5-4da6-bf7f-8b624897817a"/>
+				<textElement>
+					<font fontName="Yu Gothic UI" size="15"/>
+				</textElement>
+				<text><![CDATA[Empresa: Hermes Software]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="363" y="150" width="209" height="28" uuid="d16ce6ba-388d-4285-af68-f2f5cd4524a3"/>
+				<textElement>
+					<font fontName="Yu Gothic UI" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="146" width="572" height="4" forecolor="#0099FF" backcolor="#0099FF" uuid="6972fb13-6e18-4477-bea0-fe595038bbab"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="178" width="572" height="4" forecolor="#0099FF" backcolor="#0099FF" uuid="e362201b-3c9b-4742-bd3d-668a0c667bf3"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="208" y="105" width="204" height="41" uuid="82c6b9e2-5abf-4f15-bcd9-375d5097e194"/>
+				<textElement>
+					<font fontName="Yu Gothic UI" size="22"/>
+				</textElement>
+				<text><![CDATA[Reporte de Recursos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="113" y="182" width="181" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="3d36636f-500c-483e-a599-b6f9404ba097"/>
+				<textElement textAlignment="Center">
+					<font fontName="Yu Gothic UI" size="15"/>
+				</textElement>
+				<text><![CDATA[N# Total de registros:]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="329" y="182" width="131" height="20" uuid="6f541fbe-c25f-499e-98ca-d7aec5ce2f8c"/>
+				<textFieldExpression><![CDATA[$V{nombreRecurso_1}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="154" y="0" width="289" height="89" uuid="1dcd0098-5e4e-4c34-aacc-12e54567c979"/>
+				<imageExpression><![CDATA["C:\\Users\\adalb\\Desktop\\Ricaldone 2020\\01 Modulos Técnicos\\ExpoTécnica 2020\\Sistema\\Revisiones\\Proyecto Formativo 100%\\Hermes_Sistem\\Proyecto Hermes\\Proyecto Hermes\\Hermes 5.0\\src\\Reportes\\images\\Sin título.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="38" y="0" width="181" height="27" forecolor="#FFFFFF" backcolor="#0099FF" uuid="9b2c9b4a-61ea-4ff0-bc56-77fbface7eb7"/>
+				<textElement textAlignment="Center">
+					<font fontName="Yu Gothic UI" size="15"/>
+				</textElement>
+				<text><![CDATA[Recurso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="219" y="0" width="161" height="27" forecolor="#FFFFFF" backcolor="#0099FF" uuid="2c6b07d9-3827-4dd0-8af6-25f739438235"/>
+				<textElement textAlignment="Center">
+					<font fontName="Yu Gothic UI" size="15"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="380" y="0" width="160" height="27" forecolor="#FFFFFF" backcolor="#0099FF" uuid="20737ab8-3c6f-48e6-9c68-46519f79a46b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Yu Gothic UI" size="15"/>
+				</textElement>
+				<text><![CDATA[Fecha de Registro]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<textField>
+				<reportElement x="380" y="0" width="160" height="21" uuid="ca4fd631-7d56-48c5-a145-7e4f773ad5e1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Yu Gothic UI" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaRecurso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="0" width="161" height="21" uuid="9ac835cf-848f-4347-b5b7-72b37060afa9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Yu Gothic UI" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cantidadRecurso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="35" y="0" width="184" height="21" uuid="ba58f843-1e27-45a5-9c06-7cdd8d401af1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Yu Gothic UI" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreRecurso}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="38" y="23" width="502" height="1" forecolor="#0099FF" uuid="1ceb726b-0b27-473a-ac65-04e263b0797a"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="25" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="479" y="11" width="93" height="24" uuid="fcd32bcb-63e7-4e5d-a055-2322b91144de"/>
+				<textElement textAlignment="Center">
+					<font fontName="Yu Gothic UI" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="387" y="11" width="92" height="24" forecolor="#FFFFFF" backcolor="#0099FF" uuid="8b54aaec-932e-45c8-95bd-4df4a00c530e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Yu Gothic UI" size="15"/>
+				</textElement>
+				<text><![CDATA[Pagina]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="149" splitType="Stretch"/>
+	</summary>
+</jasperReport>

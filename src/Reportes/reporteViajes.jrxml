@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteViajes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="210a8d59-16c0-4301-8fc7-f13e4bbce293">
+	<property name="ireport.zoom" value="1.0000000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="precioInicial" class="java.lang.String"/>
+	<parameter name="precioFinal" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     pr."apellidos",
+     un."modelo",
+     cl."nombre",
+     dp."departamento",
+     tv."idTipoViaje",
+     tv."tipoViaje",
+     vj."direccion",
+     vj."precio",
+     vj."horaSalida",
+     vj."horaRetorno",
+     vj."idPersona" AS vj_idPersona,
+     pr."idPersona" AS pr_idPersona,
+     vj."idUnidad" AS vj_idUnidad,
+     un."idUnidad" AS un_idUnidad,
+     vj."idCliente" AS vj_idCliente,
+     cl."idCliente" AS cl_idCliente,
+     vj."idDepartamento" AS vj_idDepartamento,
+     dp."idDepartamento" AS dp_idDepartamento,
+     vj."idTipoViaje" AS vj_idTipoViaje,
+     dp."departamento",
+     cl."nombre",
+     un."modelo",
+     pr."apellidos"
+FROM
+     "Viaje" vj INNER JOIN "Persona" pr ON vj."idPersona" = pr."idPersona"
+     INNER JOIN "Unidad" un ON vj."idUnidad" = un."idUnidad"
+     INNER JOIN "Cliente" cl ON vj."idCliente" = cl."idCliente"
+     INNER JOIN "Departamento" dp ON vj."idDepartamento" = dp."idDepartamento"
+     INNER JOIN "TipoViaje" tv ON vj."idTipoViaje" = tv."idTipoViaje"
+
+where precio >= $P{precioInicial} and precio <= $P{precioFinal}]]>
+	</queryString>
+	<field name="apellidos" class="java.lang.String"/>
+	<field name="modelo" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="departamento" class="java.lang.String"/>
+	<field name="idTipoViaje" class="java.lang.Integer"/>
+	<field name="tipoViaje" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="precio" class="java.math.BigDecimal"/>
+	<field name="horaSalida" class="java.sql.Date"/>
+	<field name="horaRetorno" class="java.sql.Date"/>
+	<field name="vj_idPersona" class="java.lang.Integer"/>
+	<field name="pr_idPersona" class="java.lang.Integer"/>
+	<field name="vj_idUnidad" class="java.lang.Integer"/>
+	<field name="un_idUnidad" class="java.lang.Integer"/>
+	<field name="vj_idCliente" class="java.lang.Integer"/>
+	<field name="cl_idCliente" class="java.lang.Integer"/>
+	<field name="vj_idDepartamento" class="java.lang.Integer"/>
+	<field name="dp_idDepartamento" class="java.lang.Integer"/>
+	<field name="vj_idTipoViaje" class="java.lang.Integer"/>
+	<variable name="nombre_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{nombre}]]></variableExpression>
+	</variable>
+	<group name="tipoviaje">
+		<groupExpression><![CDATA[$F{idTipoViaje}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="30" width="100" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="541ae512-d135-42c2-a270-f80c10e9f1a5"/>
+					<textElement textAlignment="Center">
+						<font fontName="Yu Gothic UI"/>
+					</textElement>
+					<text><![CDATA[Direccion]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="100" y="30" width="41" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="aa74fafd-afa8-4453-bfaa-43fed0e9764b"/>
+					<textElement textAlignment="Center">
+						<font fontName="Yu Gothic UI"/>
+					</textElement>
+					<text><![CDATA[Precio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="141" y="30" width="64" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="118c0051-6458-412d-a8b1-9b87ed36cadd"/>
+					<textElement textAlignment="Center">
+						<font fontName="Yu Gothic UI"/>
+					</textElement>
+					<text><![CDATA[Salida]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="205" y="30" width="65" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="876eb62b-d7c5-4d99-9ebc-fd10f6cd5f8a"/>
+					<textElement textAlignment="Center">
+						<font fontName="Yu Gothic UI"/>
+					</textElement>
+					<text><![CDATA[Retorno]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="270" y="30" width="76" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="21b2c691-12fd-44a3-b248-1eb5112a8634"/>
+					<textElement textAlignment="Center">
+						<font fontName="Yu Gothic UI"/>
+					</textElement>
+					<text><![CDATA[Personal]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="346" y="30" width="65" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="b0011a37-76d9-4e1e-9d32-5c3d7aa52093"/>
+					<textElement textAlignment="Center">
+						<font fontName="Yu Gothic UI"/>
+					</textElement>
+					<text><![CDATA[Unidad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="411" y="30" width="71" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="e0b8dc19-5c28-4a7a-a65a-a47439fcb8da"/>
+					<textElement textAlignment="Center">
+						<font fontName="Yu Gothic UI"/>
+					</textElement>
+					<text><![CDATA[Cliente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="482" y="30" width="73" height="20" forecolor="#FFFFFF" backcolor="#0099FF" uuid="2c41270b-d447-45d1-9417-db7845249fb7"/>
+					<textElement textAlignment="Center">
+						<font fontName="Yu Gothic UI"/>
+					</textElement>
+					<text><![CDATA[Departamento]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="0" width="25" height="20" uuid="3441e099-94a7-45f3-8fa2-14a142eb001e"/>
+					<textFieldExpression><![CDATA[$F{idTipoViaje}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="25" y="0" width="100" height="20" uuid="1c8d47bd-c397-4165-a998-42888454ad39"/>
+					<textFieldExpression><![CDATA[$F{tipoViaje}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="8"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="205" splitType="Stretch">
+			<staticText>
+				<reportElement x="195" y="99" width="171" height="41" uuid="b027745e-384d-4457-901b-d7e5353941da"/>
+				<textElement>
+					<font fontName="Yu Gothic UI" size="22"/>
+				</textElement>
+				<text><![CDATA[Reporte de Viajes]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="140" width="555" height="4" forecolor="#0099FF" backcolor="#0099FF" uuid="2db89070-a0ab-44fd-8b93-a41da2275eed"/>
+			</rectangle>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="346" y="144" width="209" height="28" uuid="03d1b12e-aadc-4de5-9bc7-063906b70ed2"/>
+				<textElement>
+					<font fontName="Yu Gothic UI" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="144" width="184" height="28" uuid="db742b6d-a922-439d-91e5-77e824cd9045"/>
+				<textElement>
+					<font fontName="Yu Gothic UI" size="15"/>
+				</textElement>
+				<text><![CDATA[Empresa: Hermes Software]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="172" width="555" height="4" forecolor="#0099FF" backcolor="#0099FF" uuid="8dea3d98-1e60-4b26-82c0-fea35836d555"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="160" y="176" width="93" height="29" forecolor="#FFFFFF" backcolor="#0099FF" uuid="d122a290-31a0-48f6-a77c-b9e2ba96c163"/>
+				<textElement textAlignment="Center">
+					<font fontName="Yu Gothic UI"/>
+				</textElement>
+				<text><![CDATA[N# Total de registros:]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="278" y="176" width="100" height="29" uuid="9703e38b-3217-49b8-aea3-376fae21cd5d"/>
+				<textFieldExpression><![CDATA[$V{nombre_1}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="172" y="0" width="239" height="84" uuid="26f21fd6-ad1f-4aa2-a064-0fe9f9358d9c"/>
+				<imageExpression><![CDATA["C:\\Users\\adalb\\Desktop\\Ricaldone 2020\\01 Modulos Técnicos\\ExpoTécnica 2020\\Sistema\\Revisiones\\Proyecto Formativo 100%\\Hermes_Sistem\\Proyecto Hermes\\Proyecto Hermes\\Hermes 5.0\\src\\Reportes\\images\\Sin título.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="7" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="20" width="555" height="1" forecolor="#0099FF" uuid="4e47677d-eff3-45f5-8bcb-4c812dbfaa97"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="ea7874d8-c327-42d4-95ec-8b6c614eee0f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="41" height="20" uuid="98be938b-de13-446b-89b2-5bebf56f7ea4"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="141" y="0" width="64" height="20" uuid="dddad8f4-76b6-446f-b129-d6f542b80d46"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{horaSalida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="0" width="65" height="20" uuid="324f51d7-e047-4991-9c72-c628a9fa77d4"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{horaRetorno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="0" width="76" height="20" uuid="b4534cb8-7c55-4b0e-8217-3dd4c0289dcb"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{apellidos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="346" y="0" width="65" height="20" uuid="c6723ab6-27ad-4f3f-a5e0-01494bdee3e9"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{modelo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="411" y="0" width="71" height="20" uuid="4ad8664b-76e9-4265-a9ae-c4e552f38e48"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="482" y="0" width="73" height="20" uuid="43b2afe9-2e31-41a8-8d04-f27df3e850cf"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{departamento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="8" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,1233 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Vista;
+
+import Controlador.Conexion;
+import Controlador.ConstructorLogin;
+import Controlador.ConstructorPersona;
+import Modelo.FuncionesPersona;
+import Modelo.Validaciones;
+import com.toedter.calendar.JDateChooser;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import javax.swing.JPanel;
+import javax.swing.*;
+import java.sql.*;
+import java.text.DateFormat;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+
+/**
+ *
+ * @author Alberto Ramirez
+ */
+public class PanelUsuarios extends javax.swing.JPanel {
+
+    //Declaracion de atributos
+    Connection con2;
+    Statement orden;
+    ResultSet rs;
+    String clave = "Hola";
+    String datos;
+    int dias = -1;
+    Validaciones no = new Validaciones();
+
+    /**
+     * Creates new form Usuarios
+     */
+    public PanelUsuarios() {
+        initComponents();
+
+        txtCodigo.setEnabled(false);
+        btnActualizar.setEnabled(false);
+        btnBaja.setEnabled(false);
+        jSeparator6.setVisible(true);
+        jLabel7.setVisible(true);
+        cmbEmpresa.setVisible(true);
+        FuncionesPersona fP = new FuncionesPersona();
+        Alterar();
+        cmbTipoEmpleado.setModel(fP.obtenerTipoPersona());
+        cmbEmpresa.setModel(fP.obtenerEmpresa());
+        cmbEstadoEmpleado.setModel(fP.obtenerEstadoPersona());
+        con2 = con.conectar();
+        if (con2 != null) {
+            this.prTabla();
+            acoplarTabla();
+        }
+
+        Alterar();
+    }
+
+    public void acoplarTabla() {
+
+        TbPersonas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        TableColumnModel columnModel = TbPersonas.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(50);
+        columnModel.getColumn(1).setPreferredWidth(100);
+        columnModel.getColumn(2).setPreferredWidth(150);
+        columnModel.getColumn(3).setPreferredWidth(150);
+        columnModel.getColumn(4).setPreferredWidth(150);
+        columnModel.getColumn(5).setPreferredWidth(100);
+        columnModel.getColumn(6).setPreferredWidth(100);
+        columnModel.getColumn(7).setPreferredWidth(250);
+        columnModel.getColumn(8).setPreferredWidth(150);
+        columnModel.getColumn(9).setPreferredWidth(150);
+        columnModel.getColumn(10).setPreferredWidth(150);
+        columnModel.getColumn(11).setPreferredWidth(150);
+        columnModel.getColumn(12).setPreferredWidth(150);
+        columnModel.getColumn(13).setPreferredWidth(150);
+    }
+
+    Date date = new Date();
+    DateFormat fechaHora = new SimpleDateFormat("yyyy-MM-dd");
+    String convertido = fechaHora.format(date);
+
+    Conexion con = new Conexion();
+
+    //Objetos
+    FuncionesPersona mensa = new FuncionesPersona();
+    ConstructorPersona obj = new ConstructorPersona();
+    ConstructorLogin mensa2 = new ConstructorLogin();
+    Validaciones vali = new Validaciones();
+
+    public void prTabla() {
+        String titulos[] = {"Codigo", "Nombres", "Apellidos", "Nacimiento", "Direccion", "Telefono", "DUI", "Correo", "Usuario", "Seguro", "Licencia", "Estado", "TipoPersonal", "Empresa"};
+        DefaultTableModel tm = new DefaultTableModel(null, titulos);
+        try {
+            orden = con2.createStatement();
+            rs = orden.executeQuery("SELECT idPersona, nombres, apellidos, fechaNacimiento, direccion, ps.telefono, dui, correo, usuario, nSeguro, licencia, estadoPersonal, tipoPersonal, nombre FROM Persona ps, EstadoPersona ep, TipoPersona tp, Licencia li, Empresa em WHERE ps.idEstadoPersonal=ep.idEstadoPersonal AND ps.idTipoPersonal=tp.idTipoPersonal AND ps.idEmpresa=em.idEmpresa AND ps.idLicencia=li.idLicencia");
+
+            while (rs.next()) {
+                Object Filas[] = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14)};
+                tm.addRow(Filas);
+            }
+
+            TbPersonas.setModel(tm);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PanelUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void calcularDias() {
+
+        Calendar inicio = dCNacimiento.getCalendar();
+        Calendar today = Calendar.getInstance();
+
+        while (inicio.before(today) || inicio.equals(today)) {
+            dias++;
+            inicio.add(Calendar.DATE, 1);
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel3 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        DUI = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel5 = new javax.swing.JLabel();
+        txtCorreo = new javax.swing.JTextField();
+        jSeparator4 = new javax.swing.JSeparator();
+        jLabel6 = new javax.swing.JLabel();
+        cmbTipoEmpleado = new javax.swing.JComboBox<>();
+        jSeparator5 = new javax.swing.JSeparator();
+        jLabel8 = new javax.swing.JLabel();
+        txtBusqueda = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jSeparator8 = new javax.swing.JSeparator();
+        jLabel10 = new javax.swing.JLabel();
+        txtUsuario = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtApellido = new javax.swing.JTextField();
+        jSeparator10 = new javax.swing.JSeparator();
+        jSeparator13 = new javax.swing.JSeparator();
+        jSeparator14 = new javax.swing.JSeparator();
+        txtNombre = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        cmbEstadoEmpleado = new javax.swing.JComboBox<>();
+        jSeparator12 = new javax.swing.JSeparator();
+        jLabel17 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TbPersonas = new javax.swing.JTable();
+        txtSeguro = new javax.swing.JTextField();
+        jSeparator15 = new javax.swing.JSeparator();
+        btnBuscar = new javax.swing.JLabel();
+        jSeparator16 = new javax.swing.JSeparator();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        cmbEmpresa = new javax.swing.JComboBox<>();
+        jSeparator6 = new javax.swing.JSeparator();
+        txtTelefono = new javax.swing.JFormattedTextField();
+        txtDui = new javax.swing.JFormattedTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        btnAgregar = new javax.swing.JButton();
+        btnMostrar = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        btnBaja = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        txtDireccion = new javax.swing.JTextField();
+        jSeparator7 = new javax.swing.JSeparator();
+        jLabel19 = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
+        jSeparator11 = new javax.swing.JSeparator();
+        dCNacimiento = new com.toedter.calendar.JDateChooser();
+        jLabel13 = new javax.swing.JLabel();
+        jSeparator18 = new javax.swing.JSeparator();
+        cmbLicencia = new javax.swing.JComboBox<>();
+
+        setBackground(new java.awt.Color(33, 33, 33));
+        setForeground(new java.awt.Color(255, 255, 255));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(960, 660));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("APELLIDOS:");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 200, 10));
+
+        DUI.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        DUI.setForeground(new java.awt.Color(255, 255, 255));
+        DUI.setText("DUI:");
+        add(DUI, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, -1, -1));
+        add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 200, 10));
+
+        jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("CORREO: ");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, -1, -1));
+
+        txtCorreo.setBackground(new java.awt.Color(33, 33, 33));
+        txtCorreo.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        txtCorreo.setForeground(new java.awt.Color(255, 255, 255));
+        txtCorreo.setBorder(null);
+        txtCorreo.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtCorreo.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtCorreo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCorreoKeyTyped(evt);
+            }
+        });
+        add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 200, 35));
+        add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 200, 10));
+
+        jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("TIPO DE PERSONAL:");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, -1, -1));
+
+        cmbTipoEmpleado.setBackground(new java.awt.Color(33, 33, 33));
+        cmbTipoEmpleado.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        cmbTipoEmpleado.setForeground(new java.awt.Color(255, 255, 255));
+        cmbTipoEmpleado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbTipoEmpleado.setPreferredSize(new java.awt.Dimension(64, 25));
+        cmbTipoEmpleado.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbTipoEmpleadoItemStateChanged(evt);
+            }
+        });
+        cmbTipoEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmbTipoEmpleadoMouseClicked(evt);
+            }
+        });
+        add(cmbTipoEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 200, 30));
+        add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 140, 200, 10));
+
+        jLabel8.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("NUMERO DE SEGURO:");
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, -1, -1));
+
+        txtBusqueda.setBackground(new java.awt.Color(33, 33, 33));
+        txtBusqueda.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        txtBusqueda.setForeground(new java.awt.Color(255, 255, 255));
+        txtBusqueda.setBorder(null);
+        txtBusqueda.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtBusqueda.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtBusqueda.setPreferredSize(new java.awt.Dimension(200, 0));
+        txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyTyped(evt);
+            }
+        });
+        add(txtBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 20, 180, 30));
+
+        jLabel9.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("FECHA NACIMIENTO:");
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, -1, -1));
+
+        jSeparator8.setPreferredSize(new java.awt.Dimension(200, 0));
+        add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 310, 200, 10));
+
+        jLabel10.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("USUARIO:");
+        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 340, -1, -1));
+
+        txtUsuario.setBackground(new java.awt.Color(33, 33, 33));
+        txtUsuario.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        txtUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        txtUsuario.setBorder(null);
+        txtUsuario.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtUsuario.setPreferredSize(new java.awt.Dimension(200, 0));
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyTyped(evt);
+            }
+        });
+        add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 370, 200, 30));
+
+        jLabel11.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("NOMBRES:");
+        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, -1, -1));
+
+        txtApellido.setBackground(new java.awt.Color(33, 33, 33));
+        txtApellido.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        txtApellido.setForeground(new java.awt.Color(255, 255, 255));
+        txtApellido.setBorder(null);
+        txtApellido.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtApellido.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidoKeyTyped(evt);
+            }
+        });
+        add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 200, 30));
+        add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 200, 10));
+
+        jSeparator13.setPreferredSize(new java.awt.Dimension(200, 0));
+        add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 400, 200, 10));
+
+        jSeparator14.setPreferredSize(new java.awt.Dimension(200, 0));
+        add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 50, 180, 10));
+
+        txtNombre.setBackground(new java.awt.Color(33, 33, 33));
+        txtNombre.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        txtNombre.setForeground(new java.awt.Color(255, 255, 255));
+        txtNombre.setBorder(null);
+        txtNombre.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
+        add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 110, 200, 30));
+
+        jLabel16.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("ESTADO DE PERSONAL:");
+        add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 420, -1, -1));
+
+        cmbEstadoEmpleado.setBackground(new java.awt.Color(33, 33, 33));
+        cmbEstadoEmpleado.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        cmbEstadoEmpleado.setForeground(new java.awt.Color(255, 255, 255));
+        cmbEstadoEmpleado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEstadoEmpleado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmbEstadoEmpleado.setPreferredSize(new java.awt.Dimension(200, 0));
+        add(cmbEstadoEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 450, 200, 30));
+
+        jSeparator12.setPreferredSize(new java.awt.Dimension(200, 0));
+        add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 480, 200, 10));
+
+        jLabel17.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 28)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("Administración de Personal");
+        add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+
+        jScrollPane1.setBackground(new java.awt.Color(153, 153, 153));
+        jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
+
+        TbPersonas = new javax.swing.JTable() {
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false;
+            }
+        };
+        TbPersonas.setBackground(new java.awt.Color(204, 204, 204));
+        TbPersonas.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        TbPersonas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        TbPersonas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbPersonasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TbPersonas);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, 920, 140));
+
+        txtSeguro.setBackground(new java.awt.Color(33, 33, 33));
+        txtSeguro.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        txtSeguro.setForeground(new java.awt.Color(255, 255, 255));
+        txtSeguro.setBorder(null);
+        txtSeguro.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtSeguro.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtSeguro.setPreferredSize(new java.awt.Dimension(200, 0));
+        txtSeguro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSeguroKeyTyped(evt);
+            }
+        });
+        add(txtSeguro, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 190, 200, 30));
+
+        jSeparator15.setPreferredSize(new java.awt.Dimension(200, 0));
+        add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, 200, 10));
+
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconografias/search.png"))); // NOI18N
+        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, -1, 40));
+
+        jSeparator16.setPreferredSize(new java.awt.Dimension(200, 0));
+        add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 220, 200, 10));
+
+        jLabel14.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("TELEFONO: ");
+        add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("TIPO LICENCIA:");
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 340, -1, -1));
+
+        cmbEmpresa.setBackground(new java.awt.Color(33, 33, 33));
+        cmbEmpresa.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        cmbEmpresa.setForeground(new java.awt.Color(255, 255, 255));
+        cmbEmpresa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEmpresa.setPreferredSize(new java.awt.Dimension(64, 25));
+        add(cmbEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, 200, 40));
+        add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 310, 200, 10));
+
+        txtTelefono.setBackground(new java.awt.Color(33, 33, 33));
+        txtTelefono.setBorder(null);
+        txtTelefono.setForeground(new java.awt.Color(255, 255, 255));
+        try {
+            txtTelefono.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtTelefono.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 280, 200, 30));
+
+        txtDui.setBackground(new java.awt.Color(33, 33, 33));
+        txtDui.setBorder(null);
+        txtDui.setForeground(new java.awt.Color(255, 255, 255));
+        try {
+            txtDui.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("######## - #")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtDui.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        add(txtDui, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 200, 30));
+
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setFont(new java.awt.Font("Yu Gothic UI", 0, 17)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Mantenimientos");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 130, -1));
+
+        btnAgregar.setBackground(new java.awt.Color(153, 153, 153));
+        btnAgregar.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconosbotones/plus.png"))); // NOI18N
+        btnAgregar.setText("Ingresar");
+        btnAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 180, 55));
+
+        btnMostrar.setBackground(new java.awt.Color(153, 153, 153));
+        btnMostrar.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconosbotones/eye.png"))); // NOI18N
+        btnMostrar.setText("Mostrar");
+        btnMostrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 180, 55));
+
+        btnActualizar.setBackground(new java.awt.Color(153, 153, 153));
+        btnActualizar.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconosbotones/loop.png"))); // NOI18N
+        btnActualizar.setText("Actualizar");
+        btnActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 180, 55));
+
+        btnBaja.setBackground(new java.awt.Color(153, 153, 153));
+        btnBaja.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        btnBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconosbotones/download.png"))); // NOI18N
+        btnBaja.setText("Dar de Baja");
+        btnBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBajaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 180, 55));
+
+        btnLimpiar.setBackground(new java.awt.Color(153, 153, 153));
+        btnLimpiar.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconosbotones/broom.png"))); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 180, 55));
+
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 100, 200, 360));
+
+        jLabel15.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("DIRECCION:");
+        add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, -1, -1));
+
+        txtDireccion.setBackground(new java.awt.Color(33, 33, 33));
+        txtDireccion.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        txtDireccion.setForeground(new java.awt.Color(255, 255, 255));
+        txtDireccion.setBorder(null);
+        txtDireccion.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtDireccion.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtDireccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDireccionKeyTyped(evt);
+            }
+        });
+        add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, 440, 35));
+        add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, 440, 10));
+
+        jLabel19.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("CÓDIGO:");
+        add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
+        txtCodigo.setBackground(new java.awt.Color(33, 33, 33));
+        txtCodigo.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        txtCodigo.setForeground(new java.awt.Color(255, 255, 255));
+        txtCodigo.setBorder(null);
+        txtCodigo.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtCodigo.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyTyped(evt);
+            }
+        });
+        add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 200, 30));
+        add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 200, 10));
+
+        dCNacimiento.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                dCNacimientoFocusGained(evt);
+            }
+        });
+        dCNacimiento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dCNacimientoMouseClicked(evt);
+            }
+        });
+        add(dCNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 190, 200, -1));
+
+        jLabel13.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("EMPRESA:");
+        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, -1, -1));
+
+        jSeparator18.setPreferredSize(new java.awt.Dimension(200, 0));
+        add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 400, 200, 10));
+
+        cmbLicencia.setBackground(new java.awt.Color(33, 33, 33));
+        cmbLicencia.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        cmbLicencia.setForeground(new java.awt.Color(255, 255, 255));
+        cmbLicencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        add(cmbLicencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 366, 200, 30));
+    }// </editor-fold>//GEN-END:initComponents
+
+    public void Limpiar() {
+        txtCodigo.setText("");
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtSeguro.setText("");
+        dCNacimiento.setCalendar(null);
+        txtDui.setText("");
+        txtTelefono.setText("");
+        txtCorreo.setText("");
+        txtUsuario.setText("");
+        txtDireccion.setText("");
+        txtBusqueda.setText("");
+        btnActualizar.setEnabled(false);
+        btnBaja.setEnabled(false);
+        btnAgregar.setEnabled(true);
+        Alterar();
+//        txtUsuario.setEnabled(true);
+//        txtLicencia.setEnabled(true);
+    }
+
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        Limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    public void camposVacios() {
+        if (txtNombre.getText().trim().equals("")
+                || txtApellido.getText().trim().equals("") || dCNacimiento.getDate() == null || txtSeguro.getText().trim().equals("")
+                || txtDui.getText().trim().equals("") || txtTelefono.getText().trim().equals("")
+                || txtCorreo.getText().trim().equals("") || txtUsuario.getText().equals("")
+                || txtDireccion.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Existen campos vacíos. Por favor, rellenelos", "Mensaje", JOptionPane.WARNING_MESSAGE);
+
+        }
+    }
+
+    public void camposVacios2() {
+        if (txtNombre.getText().trim().equals("")
+                || txtApellido.getText().trim().equals("") || dCNacimiento.getDate() == null || txtSeguro.getText().trim().equals("")
+                || txtDui.getText().trim().equals("") || txtTelefono.getText().trim().equals("")
+                || txtCorreo.getText().trim().equals("") || txtUsuario.getText().equals("")
+                || txtDireccion.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Existen campos vacíos. Por favor, rellenelos", "Mensaje", JOptionPane.WARNING_MESSAGE);
+
+        }
+    }
+
+    public void Alterar() {
+        FuncionesPersona fP = new FuncionesPersona();
+
+        if (cmbTipoEmpleado.getSelectedIndex() == 3) {
+            txtUsuario.setEnabled(false);
+            cmbLicencia.setEnabled(true);
+
+            cmbLicencia.setModel(fP.obtenerTipoLicencia());
+
+        } else if (cmbTipoEmpleado.getSelectedIndex() == 0 || cmbTipoEmpleado.getSelectedIndex() == 1 || cmbTipoEmpleado.getSelectedIndex() == 2) {
+            txtUsuario.setEnabled(true);
+            cmbLicencia.setEnabled(false);
+
+            cmbLicencia.setModel(fP.obtenerTipoLicenciaNull());
+
+        }
+    }
+
+    public void agregarPerso() {
+
+        try {
+
+            int ids = mensa.idIncremental();
+            int codigoConf = 0;
+
+            codigoConf = (int) (Math.random() * 10000 + 99999);
+
+            if (mensa2.getNivel() == 1 || mensa2.getNivel() == 2) {
+
+                if (txtNombre.getText().trim().equals("")
+                        || txtApellido.getText().trim().equals("") || dCNacimiento.getDate() == null || dias < 6570 || txtSeguro.getText().trim().equals("")
+                        || txtDui.getText().trim().equals("") || txtTelefono.getText().trim().equals("")
+                        || txtCorreo.getText().trim().equals("")
+                        || txtDireccion.getText().trim().equals("") || dias == -1) {
+
+                    if (dias < 6570) {
+                        dCNacimiento.setCalendar(null);
+                        JOptionPane.showMessageDialog(this, "Verifique que su fecha de nacimiento no sea menor a dieciocho años", "Campo no acorde a lo solicitado", JOptionPane.WARNING_MESSAGE);
+                    }
+
+                    JOptionPane.showMessageDialog(this, "Existen campos vacíos. Por favor, rellenelos", "Mensaje", JOptionPane.WARNING_MESSAGE);
+
+                } else if (vali.valCorreo(txtCorreo.getText()) == false) {
+                    JOptionPane.showMessageDialog(this, "El correo no es valido, por favor verifique los datos ingresados", "Correo no valido", JOptionPane.WARNING_MESSAGE);
+
+                } else if (cmbTipoEmpleado.getSelectedIndex() == 0 || cmbTipoEmpleado.getSelectedIndex() == 1 || cmbTipoEmpleado.getSelectedIndex() == 2) {
+
+                    obj.setCodigo(ids);
+                    obj.setNombres(txtNombre.getText());
+                    obj.setApellidos(txtApellido.getText());
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String startDateString = dateFormat.format(dCNacimiento.getDate());
+                    if (dias >= 6570) {
+                        obj.setNacimiento(startDateString);
+
+                    } else {
+                        System.out.println("" + dias);
+                        JOptionPane.showMessageDialog(this, "Debes ser mayor a 18 años");
+                    }
+
+                    obj.setDireccion(txtDireccion.getText());
+                    obj.setTelefono(txtTelefono.getText());
+                    obj.setDui(txtDui.getText());
+                    obj.setCorreo(txtCorreo.getText());
+                    obj.setUsuario(txtUsuario.getText());
+                    obj.setClave("Usuario123");
+                    obj.setConfirmacion(codigoConf);
+                    obj.setnSeguro(txtSeguro.getText());
+                    obj.setRegistro(convertido);
+                    int idLicencia = mensa.obtenerIdLicencia(cmbLicencia.getItemAt(cmbLicencia.getSelectedIndex()));
+                    int idTipoPersona = mensa.obteneridTipoPersona(cmbTipoEmpleado.getItemAt(cmbTipoEmpleado.getSelectedIndex()));
+                    int idEmpresa = mensa.obteneridEmpresa(cmbEmpresa.getItemAt(cmbEmpresa.getSelectedIndex()));
+                    int idEstadoPersona = mensa.obteneridEstadoPersona(cmbEstadoEmpleado.getItemAt(cmbEstadoEmpleado.getSelectedIndex()));
+                    obj.setIdLicencia(idLicencia);
+                    obj.setIdTipo(idTipoPersona);
+                    obj.setIdEmpresa(idEmpresa);
+                    obj.setIdEstado(idEstadoPersona);
+
+                    if (mensa.agregarPersona(obj)) {
+
+                        JOptionPane.showMessageDialog(this, "Sus datos se ingresaron exitosamente, puede continuar con el proceso", "Datos Ingresados", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Su contraseña generica es Usuario123, y su codigo de confirmación es " + codigoConf, "Credenciales", JOptionPane.INFORMATION_MESSAGE);
+                        prTabla();
+                        acoplarTabla();
+                        Limpiar();
+
+                    } else {
+
+                        JOptionPane.showMessageDialog(this, "Esta intentando ingresar datos ya registrados ", "Error de Ingreso", JOptionPane.WARNING_MESSAGE);
+                    }
+
+                } else if (cmbTipoEmpleado.getSelectedIndex() == 3 && txtUsuario.getText().trim().equals("") || cmbLicencia.getSelectedIndex() == 0 || cmbLicencia.getSelectedIndex() == 1 || cmbLicencia.getSelectedIndex() == 2 || cmbLicencia.getSelectedIndex() == 3) {
+
+                    if (txtNombre.getText().trim().equals("")
+                            || txtApellido.getText().trim().equals("") || dCNacimiento.getDate() == null || dias < 6570 || txtSeguro.getText().trim().equals("")
+                            || txtDui.getText().trim().equals("") || txtTelefono.getText().trim().equals("")
+                            || txtCorreo.getText().trim().equals("")
+                            || txtDireccion.getText().trim().equals("") || dias == -1) {
+
+                        if (dias < 6570) {
+                            dCNacimiento.setCalendar(null);
+                            JOptionPane.showMessageDialog(this, "Verifique que su fecha de nacimiento no sea menor a dieciocho años", "Campo no acorde a lo solicitado", JOptionPane.WARNING_MESSAGE);
+                        }
+
+                        JOptionPane.showMessageDialog(this, "Existen campos vacíos. Por favor, rellenelos", "Mensaje", JOptionPane.WARNING_MESSAGE);
+
+                    } else if (vali.valCorreo(txtCorreo.getText()) == false) {
+                        JOptionPane.showMessageDialog(this, "El correo no es valido, por favor verifique los datos ingresados", "Correo no valido", JOptionPane.WARNING_MESSAGE);
+
+                    } else {
+
+                        obj.setCodigo(ids);
+                        obj.setNombres(txtNombre.getText());
+                        obj.setApellidos(txtApellido.getText());
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        String startDateString = dateFormat.format(dCNacimiento.getDate());
+
+                        if (dias >= 6570) {
+                            obj.setNacimiento(startDateString);
+
+                        } else {
+                            System.out.println("" + dias);
+                            JOptionPane.showMessageDialog(this, "Debes ser mayor a 18 años");
+                        }
+
+                        obj.setDireccion(txtDireccion.getText());
+                        obj.setTelefono(txtTelefono.getText());
+                        obj.setDui(txtDui.getText());
+                        obj.setCorreo(txtCorreo.getText());
+                        obj.setUsuario("-");
+                        obj.setClave("-");
+                        obj.setConfirmacion(0);
+                        obj.setnSeguro(txtSeguro.getText());
+                        obj.setRegistro(convertido);
+                        int idLicencia = mensa.obtenerIdLicencia(cmbLicencia.getItemAt(cmbLicencia.getSelectedIndex()));
+                        int idTipoPersona = mensa.obteneridTipoPersona(cmbTipoEmpleado.getItemAt(cmbTipoEmpleado.getSelectedIndex()));
+                        int idEmpresa = mensa.obteneridEmpresa(cmbEmpresa.getItemAt(cmbEmpresa.getSelectedIndex()));
+                        int idEstadoPersona = mensa.obteneridEstadoPersona(cmbEstadoEmpleado.getItemAt(cmbEstadoEmpleado.getSelectedIndex()));
+                        obj.setIdLicencia(idLicencia);
+                        obj.setIdTipo(idTipoPersona);
+                        obj.setIdEmpresa(idEmpresa);
+                        obj.setIdEstado(idEstadoPersona);
+
+                        if (mensa.agregarPersona(obj)) {
+
+                            JOptionPane.showMessageDialog(this, "Sus datos se ingresaron exitosamente", "Datos Ingresados", JOptionPane.INFORMATION_MESSAGE);
+                            prTabla();
+                            acoplarTabla();
+                            Limpiar();
+
+                        } else {
+
+                            JOptionPane.showMessageDialog(this, "Esta intentando ingresar datos ya registrados ", "Error de Ingreso", JOptionPane.WARNING_MESSAGE);
+                        }
+
+                    }
+
+//            } else if (txtLicencia.getText().trim().equals("")) {
+//
+//                JOptionPane.showMessageDialog(this, "Error, datos no ingresados correctamente, verifique nuevamente", "Datos no Ingresados", JOptionPane.WARNING_MESSAGE);
+//
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println(e.toString());
+            JOptionPane.showMessageDialog(this, "Error algo malo ha sucedido " + e);
+        }
+
+    }
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+
+        if (txtNombre.getText().trim().equals("")
+                || txtApellido.getText().trim().equals("") || dCNacimiento.getDate() == null
+                || txtSeguro.getText().trim().equals("")
+                || txtDui.getText().trim().equals("") || txtTelefono.getText().trim().equals("")
+                || txtCorreo.getText().trim().equals("")
+                || txtDireccion.getText().trim().equals("")) {
+
+            JOptionPane.showMessageDialog(this, "Existen campos vacíos. Por favor, rellenelos", "Mensaje", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            calcularDias();
+        }
+
+        agregarPerso();
+
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    public void actualizarPerso() {
+        if (txtCodigo.getText().trim().equals("") || txtNombre.getText().trim().equals("")
+                || txtApellido.getText().trim().equals("") || dCNacimiento.getDate() == null || dias < 6570 || txtSeguro.getText().trim().equals("")
+                || txtDui.getText().trim().equals("") || txtTelefono.getText().trim().equals("")
+                || txtCorreo.getText().trim().equals("") || txtUsuario.getText().equals("")
+                || txtDireccion.getText().trim().equals("") || dias == -1) {
+
+            if (dias < 6570) {
+                dCNacimiento.setCalendar(null);
+                JOptionPane.showMessageDialog(this, "Verifique que su fecha de nacimiento no sea menor a dieciocho años", "Campo no acorde a lo solicitado", JOptionPane.WARNING_MESSAGE);
+            }
+
+            JOptionPane.showMessageDialog(this, "Existen campos vacíos. Por favor, rellenelos", "Mensaje", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            int idLicencia = mensa.obtenerIdLicencia(cmbLicencia.getItemAt(cmbLicencia.getSelectedIndex()));
+            int idTipoPersona = mensa.obteneridTipoPersona(cmbTipoEmpleado.getItemAt(cmbTipoEmpleado.getSelectedIndex()));
+            int idEmpresa = mensa.obteneridEmpresa(cmbEmpresa.getItemAt(cmbEmpresa.getSelectedIndex()));
+            int idEstadoPersona = mensa.obteneridEstadoPersona(cmbEstadoEmpleado.getItemAt(cmbEstadoEmpleado.getSelectedIndex()));
+            obj.setIdLicencia(idLicencia);
+            obj.setIdTipo(idTipoPersona);
+            obj.setIdEmpresa(idEmpresa);
+            obj.setIdEstado(idEstadoPersona);
+
+            obj.setCodigo(Integer.parseInt(txtCodigo.getText()));
+            obj.setNombres(txtNombre.getText());
+            obj.setApellidos(txtApellido.getText());
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String startDateString = dateFormat.format(dCNacimiento.getDate());
+            if (dias >= 6570) {
+                obj.setNacimiento(startDateString);
+
+            } else {
+                System.out.println("" + dias);
+                JOptionPane.showMessageDialog(this, "Debes ser mayor a 18 años");
+            }
+
+            obj.setDui(txtDui.getText());
+            obj.setTelefono(txtTelefono.getText());
+            obj.setCorreo(txtCorreo.getText());
+            obj.setUsuario(txtUsuario.getText());
+            obj.setDireccion(txtDireccion.getText());
+            obj.setnSeguro(txtSeguro.getText());
+
+            obj.setRegistro(convertido);
+
+            if (mensa.actualizarPersona(obj)) {
+                JOptionPane.showMessageDialog(this, "Se actualizaron los datos exitosamente", "Datos Actualizados", JOptionPane.INFORMATION_MESSAGE);
+                prTabla();
+                acoplarTabla();
+                Limpiar();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Error, datos no actualizados correctamente, verifique nuevamente", "Datos no Actualizados", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+
+        if (txtNombre.getText().trim().equals("")
+                || txtApellido.getText().trim().equals("") || dCNacimiento.getDate() == null
+                || txtSeguro.getText().trim().equals("")
+                || txtDui.getText().trim().equals("") || txtTelefono.getText().trim().equals("")
+                || txtCorreo.getText().trim().equals("")
+                || txtDireccion.getText().trim().equals("")) {
+
+            JOptionPane.showMessageDialog(this, "Existen campos vacíos. Por favor, rellenelos", "Mensaje", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            calcularDias();
+        }
+        actualizarPerso();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    public void bajaPerso() {
+
+        if (txtCodigo.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Campos Vacios");
+        } else {
+            int baja = 2;
+            obj.setIdEstado(baja);
+            obj.setCodigo(Integer.parseInt(txtCodigo.getText()));
+            if (mensa.darBaja(obj)) {
+                JOptionPane.showMessageDialog(null, "Datos Inhabilitados");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al actualizar datos");
+            }
+            prTabla();
+            acoplarTabla();
+            Limpiar();
+
+        }
+    }
+
+    private void btnBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaActionPerformed
+        bajaPerso();
+    }//GEN-LAST:event_btnBajaActionPerformed
+
+
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        prTabla();
+        acoplarTabla();
+    }//GEN-LAST:event_btnMostrarActionPerformed
+
+    private void TbPersonasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbPersonasMouseClicked
+        try {
+            int seleccion = TbPersonas.getSelectedRow();
+
+            txtCodigo.setText(String.valueOf(TbPersonas.getValueAt(seleccion, 0).toString()));
+            txtNombre.setText(String.valueOf(TbPersonas.getValueAt(seleccion, 1).toString()));
+            txtApellido.setText(String.valueOf(TbPersonas.getValueAt(seleccion, 2).toString()));
+
+            String nac = TbPersonas.getValueAt(seleccion, 3).toString();
+            SimpleDateFormat formatoNac = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaN = null;
+
+            fechaN = formatoNac.parse(nac);
+            dCNacimiento.setDate(fechaN);
+
+            txtDireccion.setText(String.valueOf(TbPersonas.getValueAt(seleccion, 4)));
+            txtTelefono.setText(String.valueOf(TbPersonas.getValueAt(seleccion, 5)));
+            txtDui.setText(String.valueOf(TbPersonas.getValueAt(seleccion, 6)));
+            txtCorreo.setText(String.valueOf(TbPersonas.getValueAt(seleccion, 7)));
+            txtUsuario.setText(String.valueOf(TbPersonas.getValueAt(seleccion, 8)));
+            txtSeguro.setText(String.valueOf(TbPersonas.getValueAt(seleccion, 9)));
+
+            cmbLicencia.getModel().setSelectedItem(String.valueOf(TbPersonas.getModel().getValueAt(seleccion, 10)));
+            cmbEstadoEmpleado.getModel().setSelectedItem(String.valueOf(TbPersonas.getModel().getValueAt(seleccion, 11)));
+            cmbTipoEmpleado.getModel().setSelectedItem(String.valueOf(TbPersonas.getModel().getValueAt(seleccion, 12)));
+            cmbEmpresa.getModel().setSelectedItem(String.valueOf(TbPersonas.getModel().getValueAt(seleccion, 13)));
+
+//            cmbLicencia.setSelectedItem(String.valueOf(TbPersonas.getValueAt(seleccion, 10)));
+//            cmbEstadoEmpleado.setSelectedItem(String.valueOf(TbPersonas.getValueAt(seleccion, 11)));
+//            cmbTipoEmpleado.setSelectedItem(String.valueOf(TbPersonas.getValueAt(seleccion, 12)));
+//            cmbEmpresa.setSelectedItem(String.valueOf(TbPersonas.getValueAt(seleccion, 13)));
+            btnActualizar.setEnabled(true);
+            btnBaja.setEnabled(true);
+            btnAgregar.setEnabled(false);
+
+        } catch (Exception e) {
+            System.err.println(e.toString());
+        }
+
+
+    }//GEN-LAST:event_TbPersonasMouseClicked
+
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+
+    }//GEN-LAST:event_txtCodigoKeyTyped
+
+    private void txtSeguroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSeguroKeyTyped
+
+        //Validamos que no se puedan poner espacios
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9') && (car != (int) KeyEvent.VK_ENTER) && (car != (int) KeyEvent.VK_BACK_SPACE)) {
+            evt.consume();
+            Toolkit.getDefaultToolkit().beep();
+        }
+
+        //Validamos el limite de caracteres
+        if (txtSeguro.getText().length() == 25) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Limite de caracteres");
+        }
+    }//GEN-LAST:event_txtSeguroKeyTyped
+
+    private void txtCorreoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorreoKeyTyped
+
+        no.valCorreo(txtCorreo.getText());
+        Character e;
+        e = evt.getKeyChar();
+        if (e == KeyEvent.VK_SPACE) {
+            evt.consume();
+        }
+
+        if (txtCorreo.getText().length() == 33) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Limite de caracteres");
+        }
+
+    }//GEN-LAST:event_txtCorreoKeyTyped
+
+    private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
+
+        //Validamos que no se puedan poner espacios
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9') && (car < '-') && (car != (char) KeyEvent.VK_ENTER) && (car != (char) KeyEvent.VK_BACK_SPACE)) {
+            evt.consume();
+            Toolkit.getDefaultToolkit().beep();
+        }
+
+        //Validamos el limite de caracteres
+        if (txtUsuario.getText().length() == 16) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Limite de caracteres");
+        }
+    }//GEN-LAST:event_txtUsuarioKeyTyped
+
+
+    private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
+
+    }//GEN-LAST:event_txtNombreKeyPressed
+
+    private void cmbTipoEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbTipoEmpleadoMouseClicked
+
+//        FuncionesPersona fP = new FuncionesPersona();
+//
+//        if (cmbTipoEmpleado.getSelectedIndex() == 3) {
+//            
+//            cmbLicencia.setModel(fP.obtenerTipoLicencia());
+//            txtUsuario.setEnabled(false);
+//            cmbLicencia.setEnabled(true);
+//
+//        } else if (cmbTipoEmpleado.getSelectedIndex() == 0 || cmbTipoEmpleado.getSelectedIndex() == 1 || cmbTipoEmpleado.getSelectedIndex() == 2) {
+//
+//            cmbLicencia.setModel(fP.obtenerTipoLicenciaNull());
+//            txtUsuario.setEnabled(true);
+//            cmbLicencia.setEnabled(false);
+//
+//        }
+
+    }//GEN-LAST:event_cmbTipoEmpleadoMouseClicked
+
+    private void cmbTipoEmpleadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbTipoEmpleadoItemStateChanged
+
+        FuncionesPersona fP = new FuncionesPersona();
+
+        if (cmbTipoEmpleado.getSelectedIndex() == 3) {
+
+            cmbLicencia.setModel(fP.obtenerTipoLicencia());
+            txtUsuario.setEnabled(false);
+            cmbLicencia.setEnabled(true);
+
+        } else if (cmbTipoEmpleado.getSelectedIndex() == 0 || cmbTipoEmpleado.getSelectedIndex() == 1 || cmbTipoEmpleado.getSelectedIndex() == 2) {
+
+            cmbLicencia.setModel(fP.obtenerTipoLicenciaNull());
+            txtUsuario.setEnabled(true);
+            cmbLicencia.setEnabled(false);
+
+        }
+    }//GEN-LAST:event_cmbTipoEmpleadoItemStateChanged
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        //Validamos que se puedan poner espacios
+        Character e;
+        e = evt.getKeyChar();
+        if (!Character.isLetter(e) && e != KeyEvent.VK_SPACE) {
+            evt.consume();
+        }
+
+        //Validamos el limite de caracteres
+        if (txtNombre.getText().length() == 25) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Limite de caracteres");
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
+        //Validamos que se puedan poner espacios
+        Character e;
+        e = evt.getKeyChar();
+        if (!Character.isLetter(e) && e != KeyEvent.VK_SPACE) {
+            evt.consume();
+        }
+
+        //Validamos el limite de caracteres
+        if (txtApellido.getText().length() == 25) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Limite de caracteres");
+        }
+    }//GEN-LAST:event_txtApellidoKeyTyped
+
+    private void txtDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionKeyTyped
+
+        //Validamos el limite de caracteres
+        if (txtDireccion.getText().length() == 55) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Limite de caracteres");
+        }
+    }//GEN-LAST:event_txtDireccionKeyTyped
+
+    private void dCNacimientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dCNacimientoMouseClicked
+
+    }//GEN-LAST:event_dCNacimientoMouseClicked
+
+    private void dCNacimientoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dCNacimientoFocusGained
+
+    }//GEN-LAST:event_dCNacimientoFocusGained
+
+    private void txtBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyPressed
+        String titulos[] = {"Codigo", "Nombres", "Apellidos", "Nacimiento", "Direccion", "Telefono", "DUI", "Correo", "Usuario", "Seguro", "Licencia", "Estado", "TipoPersonal", "Empresa"};
+        DefaultTableModel tm = new DefaultTableModel(null, titulos);
+        try {
+            orden = con2.createStatement();
+            rs = orden.executeQuery("SELECT idPersona, nombres, apellidos, fechaNacimiento, direccion, ps.telefono, dui, correo, usuario, nSeguro, licencia, estadoPersonal, tipoPersonal, nombre FROM Persona ps, EstadoPersona ep, TipoPersona tp, Licencia li, Empresa em WHERE ps.idEstadoPersonal=ep.idEstadoPersonal AND ps.idTipoPersonal=tp.idTipoPersonal AND ps.idEmpresa=em.idEmpresa AND ps.idLicencia=li.idLicencia AND nombres LIKE '%" + txtBusqueda.getText() + "%'");
+
+            while (rs.next()) {
+                Object Filas[] = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getString(14)};
+                tm.addRow(Filas);
+            }
+
+            TbPersonas.setModel(tm);
+            acoplarTabla();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PanelUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_txtBusquedaKeyPressed
+
+    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
+
+        //Validamos que no se puedan poner espacios
+        char car = evt.getKeyChar();
+        if ((car < '0' || car > '9') && (car < 'a' || car > 'z') && (car < 'A' || car > 'Z') && (car > ' ') && (car != (char) KeyEvent.VK_ENTER) && (car != (char) KeyEvent.VK_BACK_SPACE)) {
+            evt.consume();
+            Toolkit.getDefaultToolkit().beep();
+        }
+
+        //Validamos el limite de caracteres
+        if (txtBusqueda.getText().length() == 32) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Limite de caracteres");
+        }
+
+        //Solo numeros
+        char validar = evt.getKeyChar();
+
+        if (Character.isDigit(validar)) {
+            getToolkit().beep();
+            evt.consume();
+
+            JOptionPane.showMessageDialog(null, "Ingresar solo letras");
+        }
+
+    }//GEN-LAST:event_txtBusquedaKeyTyped
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel DUI;
+    private javax.swing.JTable TbPersonas;
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnBaja;
+    private javax.swing.JLabel btnBuscar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnMostrar;
+    private javax.swing.JComboBox<String> cmbEmpresa;
+    private javax.swing.JComboBox<String> cmbEstadoEmpleado;
+    private javax.swing.JComboBox<String> cmbLicencia;
+    private javax.swing.JComboBox<String> cmbTipoEmpleado;
+    private com.toedter.calendar.JDateChooser dCNacimiento;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator13;
+    private javax.swing.JSeparator jSeparator14;
+    private javax.swing.JSeparator jSeparator15;
+    private javax.swing.JSeparator jSeparator16;
+    private javax.swing.JSeparator jSeparator18;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtBusqueda;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtCorreo;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JFormattedTextField txtDui;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtSeguro;
+    private javax.swing.JFormattedTextField txtTelefono;
+    private javax.swing.JTextField txtUsuario;
+    // End of variables declaration//GEN-END:variables
+
+    void setLocation(JPanel contenedor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}

@@ -1,0 +1,18 @@
+private String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private String url = "dbc:sqlserver://0.tcp.ngrok.io,12225;databaseName=Sistema_transporte;";
+    private String user = "arwen";
+    private String pwrd = "123";
+    Connection cn = null;
+    public Connection conectar(){
+        try {
+            Class.forName(driver);
+            cn = DriverManager.getConnection(url,user,pwrd);
+            if (cn != null) {
+                System.out.println("si hay conexion");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return cn;
+    }
+    

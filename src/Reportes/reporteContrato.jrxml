@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteServicio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df77964f-47e1-496a-a39d-efe3bc585188">
+	<property name="ireport.zoom" value="1.100000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select intereses, monto, fecha_inicio, fecha_fin, c.fechaRegistro, nombreServicio, nombre, tipoPago from Contrato c, Cliente cl, TipoPago t, Servicio s Where c.idCliente = cl.idCliente and c.idPago = t.idPago and c.idServicio = s.idServicio order by idContrato]]>
+	</queryString>
+	<field name="intereses" class="java.math.BigDecimal"/>
+	<field name="monto" class="java.math.BigDecimal"/>
+	<field name="fecha_inicio" class="java.sql.Timestamp"/>
+	<field name="fecha_fin" class="java.sql.Timestamp"/>
+	<field name="fechaRegistro" class="java.sql.Date"/>
+	<field name="nombreServicio" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="tipoPago" class="java.lang.String"/>
+	<variable name="nombreServicio_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{nombreServicio}]]></variableExpression>
+	</variable>
+	<group name="porTipoPago">
+		<groupExpression><![CDATA[$F{tipoPago}]]></groupExpression>
+		<groupHeader>
+			<band height="65">
+				<rectangle>
+					<reportElement x="0" y="45" width="79" height="20" backcolor="#66CCFF" uuid="4de142de-5e4e-4a87-af9c-a749521d42c7"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="79" y="45" width="79" height="20" backcolor="#66CCFF" uuid="4bb553f1-93b7-4318-87d9-69fec542d8ff"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="158" y="45" width="79" height="20" backcolor="#66CCFF" uuid="d497bc41-489e-4dd0-9325-b17d62c1fbaf"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="237" y="45" width="79" height="20" backcolor="#66CCFF" uuid="3f3ef3ee-7297-447d-9c88-18bf3a226f47"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="316" y="45" width="79" height="20" backcolor="#66CCFF" uuid="ee47c8fa-9c34-42b9-aeb0-85807f8794ad"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="395" y="45" width="79" height="20" backcolor="#66CCFF" uuid="739fe898-8f05-497f-ab7c-9874cad5eacc"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="474" y="45" width="79" height="20" backcolor="#66CCFF" uuid="fbe25df9-0a40-49ef-b772-2d2259044e24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="0" y="0" width="555" height="20" backcolor="#99CCFF" uuid="b3e6be8e-addd-424a-95ac-1ff99eec0253"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="158" y="45" width="79" height="20" uuid="081863b4-ab16-43c6-a855-3417e7719e60"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Intereses]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="316" y="45" width="79" height="20" uuid="aae609c4-cb82-4aed-b4cd-71eb896767df"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Fecha de Registro]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="395" y="45" width="79" height="20" uuid="bd900ddc-eb86-47ef-a282-44ef2b2fd327"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Inicio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="474" y="45" width="79" height="20" uuid="1917f700-2527-496f-84be-76f258f31004"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Fin]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="0" width="553" height="20" uuid="2ae26b49-2ba1-4caa-aa87-5e124d7415a2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tipoPago}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="79" y="45" width="79" height="20" uuid="a67b8968-991b-4f48-abd5-a52dd7307221"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Servicio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="45" width="79" height="20" uuid="1ad1b4ea-6fe7-42ed-a01d-9d48e2ceaf2c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Nombre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="237" y="45" width="79" height="20" uuid="df4369c8-1b4b-4496-804f-2eb13b8028da"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Monto]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="17" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="188" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="139" width="555" height="8" backcolor="#3399FF" uuid="6b1512ad-0190-4ccf-b0f1-29d0c6ba9bb6"/>
+			</rectangle>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="439" y="147" width="116" height="33" uuid="a29ef500-46a1-417c-ac08-2c48c924d502"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="340" y="147" width="99" height="33" uuid="11a7879e-6ddf-4771-8e44-1ad77af6c297"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="113" width="553" height="26" uuid="8d8bcb30-6796-4e30-b0b9-4ddbdbeff2c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<text><![CDATA[Reporte Contrato]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="180" width="555" height="8" backcolor="#3399FF" uuid="01fe1e66-ccfd-464b-b792-3122de8d5983"/>
+			</rectangle>
+			<image>
+				<reportElement x="146" y="0" width="289" height="113" uuid="e75d7ede-6fa6-4731-8190-4898cb763e52"/>
+				<imageExpression><![CDATA["C:\\Users\\adalb\\Desktop\\Ricaldone 2020\\01 Modulos Técnicos\\ExpoTécnica 2020\\Sistema\\Revisiones\\Proyecto Formativo 100%\\Hermes_Sistem\\Proyecto Hermes\\Proyecto Hermes\\Hermes 5.0\\src\\Reportes\\images\\Sin título.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="158" y="3" width="100" height="20" uuid="d1296a99-b546-4a9f-b0e0-98d0b19d14d3"/>
+				<text><![CDATA[N# Total:]]></text>
+			</staticText>
+			<textField evaluationTime="Column">
+				<reportElement x="258" y="3" width="100" height="20" uuid="0ea2f9ac-0ca7-414f-968b-ae86d55b1eef"/>
+				<textFieldExpression><![CDATA[$V{nombreServicio_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="48" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="79" height="48" backcolor="#99FFFF" uuid="2ca6c3e8-edd8-49bd-831a-9ab4163f2467"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="79" y="0" width="79" height="48" backcolor="#CCCCCC" uuid="2b2e816d-f9f8-4509-8c1b-f7d49fc80d21"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="158" y="0" width="79" height="48" backcolor="#99FFFF" uuid="8951c4bc-3bfd-4e77-bafa-9cca340d3803"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="237" y="0" width="79" height="48" backcolor="#CCCCCC" uuid="1ea1a423-3714-4f11-a7dc-d998427145c9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="316" y="0" width="79" height="48" backcolor="#99FFFF" uuid="c64283bc-eb0a-4685-b8b0-c705709c17df"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="395" y="0" width="79" height="48" backcolor="#CCCCCC" uuid="b51b764d-b0bb-4af9-bf70-4136e6c1567e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="474" y="0" width="79" height="48" backcolor="#99FFFF" uuid="c0944687-f3b1-4639-bcff-aef20b30df37"/>
+			</rectangle>
+			<textField>
+				<reportElement x="158" y="0" width="79" height="48" uuid="4cad9832-2c35-4371-b72e-baccef9087c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{intereses}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="316" y="0" width="79" height="48" uuid="17dc639a-3fc4-4759-afd3-467419406d63"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fechaRegistro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="395" y="0" width="79" height="48" uuid="dd7be3d7-5afa-4206-a8af-bb1fd0b8c81e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_inicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="474" y="0" width="79" height="48" uuid="bfd72cdd-8386-4ac7-85be-ef7f2f280416"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_fin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="79" height="48" uuid="c72f74a1-7109-4fe6-a365-49a63137a5e1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="237" y="0" width="79" height="48" uuid="5953f996-9ad3-44e7-b17a-064fdca220fd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="0" width="79" height="48" uuid="81a2706a-b6e8-47be-9f11-45246a19849d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombreServicio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="45" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="8" backcolor="#3399FF" uuid="7c159e72-a035-439f-80cf-9905d24eb9ee"/>
+			</rectangle>
+			<textField>
+				<reportElement x="435" y="12" width="80" height="33" uuid="2551f6ff-ad88-49f7-8bb0-07761265ae19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="12" width="40" height="33" uuid="73cb72e4-753f-43ea-b28c-5b0f9c08dfb7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="12" width="99" height="33" forecolor="#999999" uuid="4c183f8e-9562-43be-ad23-de97118ed309"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Hermes Software]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="142" splitType="Stretch">
+			<pieChart>
+				<chart>
+					<reportElement x="0" y="0" width="555" height="142" uuid="ce9d3a32-93b9-4320-b45b-9a4bc588b4d1"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{nombre}]]></keyExpression>
+					<valueExpression><![CDATA[$F{monto}]]></valueExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+		</band>
+	</summary>
+</jasperReport>
